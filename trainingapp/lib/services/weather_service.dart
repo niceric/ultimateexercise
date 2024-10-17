@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:trainingapp/models/weather_model.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 
 class WeatherService {
   static const API_URL = 'https://api.openweathermap.org/data/3.0/onecall';
