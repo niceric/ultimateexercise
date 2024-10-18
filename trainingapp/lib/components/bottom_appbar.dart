@@ -54,3 +54,31 @@ class BottomMenu extends StatelessWidget {
     //body: screens[currentScreenIndex],
   }
 }
+
+
+
+
+// return MultiProvider(
+//       providers: [
+//         ChangeNotifierProvider(create: (context) => ScreenIndexProvider())
+//       ],
+//       child: MaterialApp(
+//         home: HomeScreen(),
+//         debugShowCheckedModeBanner: false,
+//       ),
+//     );
+// class HomeScreen extends StatelessWidget {
+//   List<dynamic> screens = [
+//     // screen1(),
+//     // screen2(),
+//     // screen3(),
+//     // screen4(),
+//   ];
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       bottomNavigationBar: BottomMenu(),
+//       //body: screens[currentScreenIndex],
+//     );
+//   }
+// }
