@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:trainingapp/components/bottom_appbar.dart';
+import 'package:trainingapp/states/screen_index_provider.dart';
 
 class homePage extends StatelessWidget {
   const homePage({super.key});
+
+  // static List<dynamic> screens = [
+  //   // screen1(),
+  //   // screen2(),
+  //   // screen3(),
+  //   // screen4(),
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +23,7 @@ class homePage extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: BottomMenu(),
       body: Padding(
         padding: EdgeInsets.all(14.0),
         child: Column(
