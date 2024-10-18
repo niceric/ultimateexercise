@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:go_router/go_router.dart';
 import 'package:trainingapp/states/screen_index_provider.dart';
 
 class BottomMenu extends StatelessWidget {
@@ -15,7 +15,7 @@ class BottomMenu extends StatelessWidget {
       unselectedItemColor: Colors.grey,
       iconSize: 50,
       currentIndex: currentScreenIndex,
-      onTap: (value) => _screenindexprovider.updateScreenIndex(value),
+      onTap: (value) => _screenindexprovider.updateScreenIndex(value, context),
       items: [
         BottomNavigationBarItem(
             label: '',
@@ -54,31 +54,3 @@ class BottomMenu extends StatelessWidget {
     //body: screens[currentScreenIndex],
   }
 }
-
-
-
-
-// return MultiProvider(
-//       providers: [
-//         ChangeNotifierProvider(create: (context) => ScreenIndexProvider())
-//       ],
-//       child: MaterialApp(
-//         home: HomeScreen(),
-//         debugShowCheckedModeBanner: false,
-//       ),
-//     );
-// class HomeScreen extends StatelessWidget {
-//   List<dynamic> screens = [
-//     // screen1(),
-//     // screen2(),
-//     // screen3(),
-//     // screen4(),
-//   ];
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       bottomNavigationBar: BottomMenu(),
-//       //body: screens[currentScreenIndex],
-//     );
-//   }
-// }
