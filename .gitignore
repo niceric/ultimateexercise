@@ -25,6 +25,3 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
-/trainingapp/macos/Flutter
-/trainingapp/windows/flutter
-/trainingapp/linux/flutter
