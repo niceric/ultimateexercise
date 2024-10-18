@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:trainingapp/models/weather_model.dart';
 import 'package:http/http.dart' as http;
@@ -13,7 +14,8 @@ class WeatherService {
   WeatherService(this.apiKey);
 
   Future<Weather> getWeather(String cityName) async {
-    final response = await http.get(Uri.parse('$API_URL_2?q=$cityName&appid=$apiKey&units=metric'))
+    final response = await http
+        .get(Uri.parse('$API_URL_2?q=$cityName&appid=$apiKey&units=metric'));
 
     if (response.statusCode == 200) {
       return Weather.fromJson(jsonDecode(response.body));
@@ -23,7 +25,6 @@ class WeatherService {
   }
 
   Future<String> getCurrentCity() async {
-
     // get permissoin from user
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
@@ -31,12 +32,15 @@ class WeatherService {
     }
 
     // fetch current location
-    Position position = await Geolocator.getCurrentPosition(
-      locationSettings: LocationSettings()
-    ); 
+    Position position = await Geolocator.getCurrentPosition();
 
-    // convert the location to a list o placemark objects 
+    // convert the location to a list o placemark objects
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
 
-    // extract city name from first placemark 
+    // extract city name from first placemark
+    String? city = placemarks[0].locality;
+
+    return city ?? 'Could not load your location';
   }
 }
