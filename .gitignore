@@ -25,6 +25,6 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
-/trainingapp/macos/Flutter
-/trainingapp/windows/flutter
-/trainingapp/linux/flutter
+/trainingapp/macos/Flutter/GeneratedPluginRegistrant.swift
+/trainingapp/windows/flutter/generated_plugin_registrant.cc
+/trainingapp/windows/flutter/generated_plugins.cmake
