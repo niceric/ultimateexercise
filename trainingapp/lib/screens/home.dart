@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:trainingapp/components/bottom_appbar.dart';
 import 'package:trainingapp/states/screen_index_provider.dart';
+import 'package:trainingapp/components/weather_tile.dart';
 
 //Hämtar månadens månad
 String getCurrentMonth() {
@@ -35,7 +36,7 @@ class homePage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("Weather Info"),
+              child: WeatherTile(),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

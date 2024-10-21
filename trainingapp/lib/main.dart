@@ -7,12 +7,24 @@ import 'components/bottom_appbar.dart';
 import 'states/screen_index_provider.dart';
 import 'screens/history.dart';
 import 'package:go_router/go_router.dart';
+import 'package:trainingapp/services/weather_service.dart';
+import 'package:trainingapp/states/weather_handler.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (context) => ScreenIndexProvider(),
-    child: trainingApp(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => ScreenIndexProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => WeatherProvider(
+              WeatherService('e9a12a2f99efdcf6750f398f097eb9b6')),
+        ),
+      ],
+      child: trainingApp(),
+    ),
+  );
 }
 
 class trainingApp extends StatelessWidget {
