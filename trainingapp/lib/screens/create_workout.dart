@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trainingapp/states/screen_index_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateWorkout extends StatelessWidget {
   const CreateWorkout({super.key});
@@ -21,7 +22,7 @@ class CreateWorkout extends StatelessWidget {
             children: [
               IconButton(
                   onPressed: () {
-                    currentScreenIndex == 5;
+                    context.go('/add_exercise');
                   },
                   icon: Icon(Icons.plus_one))
             ],

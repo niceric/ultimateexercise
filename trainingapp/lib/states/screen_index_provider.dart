@@ -34,8 +34,6 @@ class ScreenIndexProvider extends ChangeNotifier {
       context.go('/statistics');
     } else if (index == 4) {
       context.go('/finished_workout');
-    } else if (index == 5) {
-      context.go('/add_exercise');
     }
   }
 
