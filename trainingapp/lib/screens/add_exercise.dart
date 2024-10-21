@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Statistics extends StatelessWidget {
-  const Statistics({super.key});
+class AddExercise extends StatelessWidget {
+  const AddExercise({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Statistics'),
+        title: Text('Add Exercise'),
       ),
     );
   }
