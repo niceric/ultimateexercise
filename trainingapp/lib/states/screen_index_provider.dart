@@ -20,8 +20,9 @@ class ScreenIndexProvider extends ChangeNotifier {
   }
 
   void RouteScreen(index, BuildContext context) {
-    if (index == 0) context.go('/');
-    if (index == 1) context.go('/history');
+    if (index == 0)
+      context.go('/');
+    else if (index == 1) context.go('/history');
   }
 
   final GoRouter _router = GoRouter(
