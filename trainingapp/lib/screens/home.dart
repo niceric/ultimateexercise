@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'package:trainingapp/components/bottom_appbar.dart';
 import 'package:trainingapp/states/screen_index_provider.dart';
+
+//Hämtar månadens månad
+String getCurrentMonth() {
+  DateTime now = DateTime.now();
+  String monthName = DateFormat('MMMM').format(now);
+  return monthName;
+}
 
 class homePage extends StatelessWidget {
   const homePage({super.key});
 
-  // static List<dynamic> screens = [
-  //   // screen1(),
-  //   // screen2(),
-  //   // screen3(),
-  //   // screen4(),
-  // ];
-
   @override
   Widget build(BuildContext context) {
+    final String currentMonth = getCurrentMonth();
+
     return Scaffold(
       appBar: AppBar(
         title: const Row(
@@ -41,12 +45,12 @@ class homePage extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 150,
+              height: 100, // Öka denna senare
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Oktober",
+                currentMonth,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
               ),
             ),
@@ -92,9 +96,58 @@ class homePage extends StatelessWidget {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(13.0),
+              child: calender(),
+            ),
           ],
         ),
       ),
     );
   }
+}
+
+Widget calender() {
+  //Lista med dagar där man tränat
+  List<DateTime> trainingDays = [
+    DateTime.utc(2024, 10, 7),
+    DateTime.utc(2024, 10, 16),
+  ];
+  DateTime today = DateTime.now();
+
+  return Column(
+    children: [
+      Text(
+        "Activity",
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+      ),
+      Container(
+        height: 250,
+        width: 350,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black, width: 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: TableCalendar(
+          rowHeight: 30,
+          focusedDay: today,
+          firstDay: DateTime.utc(2024, 9, 1),
+          lastDay: today,
+          calendarStyle: CalendarStyle(
+            selectedDecoration: BoxDecoration(
+              color: Colors.green, //Färgen på en dag man tränat
+              shape: BoxShape.circle, //formen på det som markerar en tränad dag
+            ),
+          ),
+          selectedDayPredicate: (day) {
+            //Anger vilka dagar som ska markeras som valda (träningsdagar) i kalendern.
+            return trainingDays.any((trainingDay) => isSameDay(
+                day, trainingDay)); //Loopar igenom dagarna i trainingDays
+            //och kontrollerar om den aktuella dagen (day)
+            //är samma som någon av träningsdagarna (trainingDay).
+          },
+        ),
+      ),
+    ],
+  );
 }
