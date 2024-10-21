@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:trainingapp/screens/add_exercise.dart';
 import 'package:trainingapp/screens/history.dart';
 import 'package:trainingapp/screens/statistics.dart';
 import 'package:trainingapp/screens/create_workout.dart';
@@ -33,6 +34,8 @@ class ScreenIndexProvider extends ChangeNotifier {
       context.go('/statistics');
     } else if (index == 4) {
       context.go('/finished_workout');
+    } else if (index == 5) {
+      context.go('/add_exercise');
     }
   }
 
@@ -67,7 +70,13 @@ class ScreenIndexProvider extends ChangeNotifier {
               builder: (BuildContext context, GoRouterState state) {
                 return FinishedWorkout(); //byt denna om ni vill ha en annan skräm här
               },
-            )
+            ),
+            GoRoute(
+              path: 'add_exercise',
+              builder: (BuildContext context, GoRouterState state) {
+                return AddExercise(); //byt denna om ni vill ha en annan skräm här
+              },
+            ),
           ])
     ],
   );
