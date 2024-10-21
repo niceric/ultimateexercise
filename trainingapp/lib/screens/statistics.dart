@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trainingapp/components/bottom_appbar.dart';
 
 class Statistics extends StatelessWidget {
   const Statistics({super.key});
@@ -8,7 +9,9 @@ class Statistics extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Statistics'),
+        automaticallyImplyLeading: false,
       ),
+      bottomNavigationBar: BottomMenu(),
     );
   }
 }

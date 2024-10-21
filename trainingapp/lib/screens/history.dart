@@ -8,6 +8,7 @@ class Historypage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        automaticallyImplyLeading: false,
         title: Text('Historik'),
       ),
       body: ListView(
