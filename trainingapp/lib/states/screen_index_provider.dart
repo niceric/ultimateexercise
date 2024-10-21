@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:trainingapp/screens/history.dart';
 import 'package:trainingapp/screens/home.dart';
 
 class ScreenIndexProvider extends ChangeNotifier {
@@ -20,7 +21,7 @@ class ScreenIndexProvider extends ChangeNotifier {
 
   void RouteScreen(index, BuildContext context) {
     if (index == 0) context.go('/');
-    if (index == 1) context.go('history');
+    if (index == 1) context.go('/history');
   }
 
   final GoRouter _router = GoRouter(
@@ -34,7 +35,7 @@ class ScreenIndexProvider extends ChangeNotifier {
             GoRoute(
               path: 'history',
               builder: (BuildContext context, GoRouterState state) {
-                return const homePage();
+                return Historypage();
               },
             )
           ])
