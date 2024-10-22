@@ -69,12 +69,14 @@ class ScreenIndexProvider extends ChangeNotifier {
                 return FinishedWorkout(); //byt denna om ni vill ha en annan skräm här
               },
             ),
+            
             GoRoute(
               path: 'add_exercise',
               builder: (BuildContext context, GoRouterState state) {
-                return AddExercise(); //byt denna om ni vill ha en annan skräm här
+                return AddExerciseSearchBar(); //byt denna om ni vill ha en annan skräm här
               },
             ),
+            
           ])
     ],
   );
