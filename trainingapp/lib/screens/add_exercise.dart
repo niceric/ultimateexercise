@@ -3,10 +3,11 @@ import 'package:trainingapp/components/bottom_appbar.dart';
 //import 'package:trainingapp/components/exercise_api.dart';
 import 'package:trainingapp/models/exercise_model.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 class AddExercise extends ChangeNotifier {
   //const AddExercise({super.key});
-  
+
   List<Exercise> result = [];
 
   getExercises(String input) async {
@@ -22,6 +23,9 @@ class AddExerciseSearchBar extends StatelessWidget {
     TextEditingController searchController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          onPressed: () => context.go('/create_workout'),
+        ),
         title: Text('Add Exercise'),
       ),
       body: Column(
@@ -29,15 +33,13 @@ class AddExerciseSearchBar extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(5.0),
             child: TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Search for exercise..."
-              ),
-              onChanged: (text){
-                context.read<AddExercise>().getExercises(text);
-              }            
-            ),
+                controller: searchController,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Search for exercise..."),
+                onChanged: (text) {
+                  context.read<AddExercise>().getExercises(text);
+                }),
           ),
           Expanded(
             child: Consumer<AddExercise>(
@@ -45,21 +47,22 @@ class AddExerciseSearchBar extends StatelessWidget {
                 if (addExercise.result.isEmpty) {
                   return Center(
                     child: Text("No exercises found."),
-                 );
-              }                     
-              return ListView.builder(
-                itemCount: addExercise.result.length,
-                itemBuilder: (context, index) {
-                  final exercise = addExercise.result[index];
-                  return ListTile(
-                    title: Text(exercise.name ?? 'No Name'),
-                    subtitle: Text(exercise.bodyPart ?? 'No Bodypart'),
-                    leading: exercise.gifUrl != null && exercise.gifUrl!.isNotEmpty
-                    ? Image.network(exercise.gifUrl!)
-                    : Icon(Icons.image_not_supported),
                   );
-                },
-               );
+                }
+                return ListView.builder(
+                  itemCount: addExercise.result.length,
+                  itemBuilder: (context, index) {
+                    final exercise = addExercise.result[index];
+                    return ListTile(
+                      title: Text(exercise.name ?? 'No Name'),
+                      subtitle: Text(exercise.bodyPart ?? 'No Bodypart'),
+                      leading:
+                          exercise.gifUrl != null && exercise.gifUrl!.isNotEmpty
+                              ? Image.network(exercise.gifUrl!)
+                              : Icon(Icons.image_not_supported),
+                    );
+                  },
+                );
               },
             ),
           ),
@@ -69,3 +72,11 @@ class AddExerciseSearchBar extends StatelessWidget {
   }
 }
 
+
+// Följande kod behövs för att lägga till en övning, ersätt "New Exercise"-strängen med namnet på den övning man väljer 
+/*
+onPressed: () {
+                  // Lägg till en ny övning
+                  Provider.of<WorkoutProvider>(context, listen: false)
+                      .addWorkout("New Exercise"); 
+*/

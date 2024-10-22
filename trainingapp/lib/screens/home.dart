@@ -46,7 +46,7 @@ class homePage extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 100, // Öka denna senare
+              height: 40, // Öka denna senare
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
