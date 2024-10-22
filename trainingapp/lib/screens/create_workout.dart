@@ -20,11 +20,18 @@ class CreateWorkout extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              IconButton(
-                  onPressed: () {
-                    context.go('/add_exercise');
-                  },
-                  icon: Icon(Icons.plus_one))
+              Center(
+                child: IconButton(onPressed: () {}, icon: Icon(Icons.ad_units)),
+              ),
+              Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        context.go('/add_exercise');
+                      },
+                      icon: Icon(Icons.plus_one)),
+                ],
+              ),
             ],
           )
         ],

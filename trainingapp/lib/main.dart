@@ -13,7 +13,8 @@ import 'package:trainingapp/services/weather_service.dart';
 import 'package:trainingapp/states/weather_handler.dart';
 import 'package:trainingapp/screens/add_exercise.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-void main() async{
+
+void main() async {
   //print(Directory.current.path);
   await dotenv.load(fileName: ".env");
   runApp(
