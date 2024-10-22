@@ -28,7 +28,7 @@ void main() async {
               WeatherService('e9a12a2f99efdcf6750f398f097eb9b6')),
         ),
         ChangeNotifierProvider(create: (context) => AddExercise()),
-        ChangeNotifierProvider(create: (context) => WorkoutHandler())
+        ChangeNotifierProvider(create: (context) => WorkoutProvider())
       ],
       child: trainingApp(),
     ),
