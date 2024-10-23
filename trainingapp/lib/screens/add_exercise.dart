@@ -4,6 +4,7 @@ import 'package:trainingapp/components/bottom_appbar.dart';
 import 'package:trainingapp/models/exercise_model.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:trainingapp/states/workout_handler.dart';
 
 class AddExercise extends ChangeNotifier {
   //const AddExercise({super.key});
@@ -54,6 +55,11 @@ class AddExerciseSearchBar extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final exercise = addExercise.result[index];
                     return ListTile(
+                      onTap: () {
+                        Provider.of<WorkoutProvider>(context, listen: false)
+                            .addWorkout(exercise.name ?? 'Not found');
+                        context.go('/create_workout');
+                      },
                       title: Text(exercise.name ?? 'No Name'),
                       subtitle: Text(exercise.bodyPart ?? 'No Bodypart'),
                       leading:
