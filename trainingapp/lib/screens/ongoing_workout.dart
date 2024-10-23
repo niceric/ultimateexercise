@@ -3,6 +3,7 @@ import 'package:trainingapp/states/workout_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trainingapp/components/workout_tile.dart';
+import 'package:trainingapp/states/stopwatch-handler.dart';
 
 class OngoingWorkout extends StatelessWidget {
   const OngoingWorkout({super.key});
@@ -38,8 +39,7 @@ class OngoingWorkout extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 100, right: 100),
-                child: Center(child: Text('JAA') // TIMER-KNAPP,
-                    ),
+
                 // ),
                 // IconButton(
                 //   icon: Icon(Icons.add),
@@ -53,9 +53,117 @@ class OngoingWorkout extends StatelessWidget {
                 // },
               ),
             ],
-          )
+          ),
+        ],
+      ),
+      bottomNavigationBar: TimerWidget(),
+    );
+  }
+}
+
+class TimerWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final time = context.watch<StopwatchProvider>().time;
+    final isRunning = context.watch<StopwatchProvider>().isRunning;
+    return BottomAppBar(
+      color: Colors.white,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 125,
+              width: 150,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: isRunning ? Colors.green : Colors.yellow),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      if (isRunning) {
+                        context.read<StopwatchProvider>().pauseStopwatch();
+                      } else {
+                        context.read<StopwatchProvider>().startStopwatch();
+                      }
+                    },
+                    icon: Icon(
+                      isRunning ? Icons.pause : Icons.play_arrow,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      time,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 14),
+                    ),
+                  ),
+                  const Icon(Icons.timer),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: ElevatedButton(
+              onPressed: () {
+                context.read<StopwatchProvider>().pauseStopwatch();
+                _showEndWorkoutDialog(context, time);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                padding: const EdgeInsets.symmetric(vertical: 17),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text(
+                "Finish",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: Colors.black),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
+}
+
+void _showEndWorkoutDialog(BuildContext context, String time) {
+  showDialog(
+    context:
+        context, //Context används för att placerar dialogen rätt i i widgetträdet
+    builder: (BuildContext context) {
+      //Lokal context för att bygga popuprutans innehåll
+      return AlertDialog(
+        title: const Text("Finish workout?"),
+        content: Text("Total time: $time"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Stänger dialogrutan
+            },
+            child: const Text("No"),
+          ),
+          TextButton(
+            onPressed: () {
+              context.read<StopwatchProvider>().pauseStopwatch();
+              print(
+                  "Workout finished. Total time: $time"); //Lägg till kod som hanterar ett avslutat pass
+              Navigator.of(context).pop(); // Stänger dialogrutan
+            },
+            child: const Text("Yes"),
+          ),
+        ],
+      );
+    },
+  );
 }
