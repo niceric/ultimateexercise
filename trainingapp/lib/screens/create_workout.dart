@@ -41,9 +41,7 @@ class CreateWorkout extends StatelessWidget {
                 child: Center(
                   child: TextButton(
                     child: Text('START WORKOUT'),
-                    onPressed: () {
-                      print('START WORKOUT');
-                    },
+                    onPressed: () => {context.go('/ongoing_workout')},
                   ),
                 ),
               ),

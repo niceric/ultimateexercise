@@ -6,6 +6,7 @@ import 'package:trainingapp/screens/statistics.dart';
 import 'package:trainingapp/screens/create_workout.dart';
 import 'package:trainingapp/screens/finished_workout.dart';
 import 'package:trainingapp/screens/home.dart';
+import 'package:trainingapp/screens/ongoing_workout.dart';
 
 class ScreenIndexProvider extends ChangeNotifier {
   int screenIndex = 0;
@@ -69,14 +70,18 @@ class ScreenIndexProvider extends ChangeNotifier {
                 return FinishedWorkout(); //byt denna om ni vill ha en annan skräm här
               },
             ),
-            
             GoRoute(
               path: 'add_exercise',
               builder: (BuildContext context, GoRouterState state) {
                 return AddExerciseSearchBar(); //byt denna om ni vill ha en annan skräm här
               },
             ),
-            
+            GoRoute(
+              path: 'ongoing_workout',
+              builder: (BuildContext context, GoRouterState state) {
+                return OngoingWorkout(); //byt denna om ni vill ha en annan skräm här
+              },
+            ),
           ])
     ],
   );
