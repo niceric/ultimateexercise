@@ -13,6 +13,7 @@ import 'package:trainingapp/services/weather_service.dart';
 import 'package:trainingapp/states/weather_handler.dart';
 import 'package:trainingapp/screens/add_exercise.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:trainingapp/states/stopwatch-handler.dart';
 
 void main() async {
   //print(Directory.current.path);
@@ -28,7 +29,8 @@ void main() async {
               WeatherService('e9a12a2f99efdcf6750f398f097eb9b6')),
         ),
         ChangeNotifierProvider(create: (context) => AddExercise()),
-        ChangeNotifierProvider(create: (context) => WorkoutProvider())
+        ChangeNotifierProvider(create: (context) => WorkoutProvider()),
+        ChangeNotifierProvider(create: (context) => StopwatchProvider())
       ],
       child: trainingApp(),
     ),
