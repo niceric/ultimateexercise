@@ -15,6 +15,8 @@ class WorkoutTile extends StatelessWidget {
       builder: (context, workoutProvider, child) {
         final workout = workoutProvider.workouts[workoutIndex];
         return Card(
+          color: Colors.lightBlue[50],
+          elevation: 4,
           margin: EdgeInsets.all(8.0),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
