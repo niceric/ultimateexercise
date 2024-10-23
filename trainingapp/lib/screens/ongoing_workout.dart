@@ -158,7 +158,8 @@ void _showEndWorkoutDialog(BuildContext context, String time) {
               context.read<StopwatchProvider>().pauseStopwatch();
               print(
                   "Workout finished. Total time: $time"); //Lägg till kod som hanterar ett avslutat pass
-              Navigator.of(context).pop(); // Stänger dialogrutan
+              Navigator.of(context).pop();
+              context.go('/finished_workout'); // Stänger dialogrutan
             },
             child: const Text("Yes"),
           ),
