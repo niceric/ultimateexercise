@@ -61,7 +61,7 @@ class ScreenIndexProvider extends ChangeNotifier {
             GoRoute(
               path: 'statistics',
               builder: (BuildContext context, GoRouterState state) {
-                return Statistics(); //byt denna om ni vill ha en annan skräm här
+                return Statisticspage(); //byt denna om ni vill ha en annan skräm här
               },
             ),
             GoRoute(
