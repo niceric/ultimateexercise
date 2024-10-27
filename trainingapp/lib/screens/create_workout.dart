@@ -36,35 +36,61 @@ class CreateWorkout extends StatelessWidget {
         ),
         body: Column(
           children: [
-            Container(
-              height: 90,
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 244, 250, 255),
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: Colors.black87, width: 0.2),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        spreadRadius: 0.5,
-                        blurRadius: 2,
-                        offset: Offset.fromDirection(0.8, 3)),
-                  ]),
-              padding: EdgeInsets.all(20),
-              margin: EdgeInsets.all(20),
-              child: TextField(
-                controller: controller,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: workoutProvider.workouts.last.workoutName ==
-                            'Workout of the day'
-                        ? 'The name of the workout'
-                        : workoutProvider.workouts.last.workoutName),
-                onChanged: (value) => {
-                  context.read<WorkoutProvider>().setWorkoutName(
-                      controller.text, workoutProvider.workouts.last.id)
-                },
-              ),
-            ),
+            Card(
+                color: Colors.lightBlue[50],
+                elevation: 4,
+                margin: EdgeInsets.all(8.0),
+                child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextField(
+                            controller: controller,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText:
+                                    workoutProvider.workouts.last.workoutName ==
+                                            'Workout of the day'
+                                        ? 'The name of the workout'
+                                        : workoutProvider
+                                            .workouts.last.workoutName),
+                            onChanged: (value) => {
+                              context.read<WorkoutProvider>().setWorkoutName(
+                                  controller.text,
+                                  workoutProvider.workouts.last.id)
+                            },
+                          ),
+                        ]))),
+            // Container(
+            //   height: 90,
+            //   decoration: BoxDecoration(
+            //       color: Colors.lightBlue[50],
+            //       borderRadius: BorderRadius.circular(5),
+            //       border: Border.all(color: Colors.black87, width: 0.2),
+            //       boxShadow: [
+            //         BoxShadow(
+            //             color: Color.fromARGB(255, 0, 0, 0),
+            //             spreadRadius: 0.5,
+            //             blurRadius: 2,
+            //             offset: Offset.fromDirection(0.8, 3)),
+            //       ]),
+            //   padding: EdgeInsets.all(16),
+            //   margin: EdgeInsets.all(20),
+            //   child: TextField(
+            //     controller: controller,
+            //     decoration: InputDecoration(
+            //         border: OutlineInputBorder(),
+            //         hintText: workoutProvider.workouts.last.workoutName ==
+            //                 'Workout of the day'
+            //             ? 'The name of the workout'
+            //             : workoutProvider.workouts.last.workoutName),
+            //     onChanged: (value) => {
+            //       context.read<WorkoutProvider>().setWorkoutName(
+            //           controller.text, workoutProvider.workouts.last.id)
+            //     },
+            //   ),
+            // ),
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.center,
             //   children: [

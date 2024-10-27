@@ -55,9 +55,11 @@ import 'package:trainingapp/models/workout_model.dart';
 
 class WorkoutProvider extends ChangeNotifier {
   List<Workout> _workouts = [];
+  double _userBodyWeight = 87.4;
 
   // Getter för alla workouts
   List<Workout> get workouts => _workouts;
+  double get userBodyWeight => _userBodyWeight;
 
   Workout? get latestWorkout {
     if (_workouts.isNotEmpty) {
@@ -86,7 +88,7 @@ class WorkoutProvider extends ChangeNotifier {
             workoutName: workoutName,
             date: DateTime.now(), // Datum sätts till nuvarande tid
             time: '00:00:00',
-            weather: ["Couldn't load weather", ""],
+            weather: [],
             exercises: []),
       );
     }
