@@ -28,4 +28,9 @@ class StopwatchProvider extends ChangeNotifier {
     _isRunning = false;
     notifyListeners();
   }
+
+  void resetStopwatch() {
+    _stopwatch.reset();
+    notifyListeners();
+  }
 }

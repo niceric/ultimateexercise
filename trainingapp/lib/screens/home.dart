@@ -22,7 +22,7 @@ class homePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Hem", style: TextStyle(fontSize: 45)),
           ],

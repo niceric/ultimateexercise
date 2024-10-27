@@ -18,12 +18,12 @@ class BottomMenu extends StatelessWidget {
       onTap: (value) => _screenindexprovider.updateScreenIndex(value, context),
       items: [
         BottomNavigationBarItem(
-            label: '',
-            icon: Icon(
-                (currentScreenIndex == 0) ? Icons.home : Icons.home_outlined),
-            backgroundColor: const Color.fromARGB(255, 255, 255,
-                255) // provide color to any one icon as it will overwrite the whole bottombar's color ( if provided any )
-            ),
+          label: '',
+          icon: Icon(
+              (currentScreenIndex == 0) ? Icons.home : Icons.home_outlined),
+          // backgroundColor: const Color.fromARGB(255, 255, 255,
+          // 255) // provide color to any one icon as it will overwrite the whole bottombar's color ( if provided any )
+        ),
         BottomNavigationBarItem(
           label: '',
           icon: Icon(

@@ -7,9 +7,11 @@ import 'package:trainingapp/screens/create_workout.dart';
 import 'package:trainingapp/screens/finished_workout.dart';
 import 'package:trainingapp/screens/home.dart';
 import 'package:trainingapp/screens/ongoing_workout.dart';
+import 'package:trainingapp/states/workout_handler.dart';
 
 class ScreenIndexProvider extends ChangeNotifier {
   int screenIndex = 0;
+  // String? workoutID = GoRouterState.of(context).extra! as String;
   int get fetchCurrentScreenIndex {
     return screenIndex;
   }
@@ -67,7 +69,9 @@ class ScreenIndexProvider extends ChangeNotifier {
             GoRoute(
               path: 'finished_workout',
               builder: (BuildContext context, GoRouterState state) {
-                return FinishedWorkout(); //byt denna om ni vill ha en annan skräm här
+                return FinishedWorkout(
+                  workoutID: '',
+                ); //byt denna om ni vill ha en annan skräm här
               },
             ),
             GoRoute(

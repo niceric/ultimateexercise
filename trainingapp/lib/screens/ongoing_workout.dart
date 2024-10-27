@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trainingapp/states/workout_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import 'package:trainingapp/components/workout_tile.dart';
+import 'package:trainingapp/components/exercise_tile.dart';
 import 'package:trainingapp/states/stopwatch-handler.dart';
 
 class OngoingWorkout extends StatelessWidget {
@@ -22,9 +22,13 @@ class OngoingWorkout extends StatelessWidget {
             child: Consumer<WorkoutProvider>(
               builder: (context, workoutProvider, child) {
                 return ListView.builder(
-                  itemCount: workoutProvider.workouts.length,
+                  itemCount: workoutProvider.workouts.last.exercises.length,
                   itemBuilder: (context, index) {
-                    return WorkoutTile(workoutIndex: index);
+                    return ExerciseTile(
+                      workoutID: workoutProvider.workouts.last.id,
+                      exerciseIndex: index,
+                      workoutStatus: 2,
+                    );
                   },
                 );
               },
@@ -66,6 +70,7 @@ class TimerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final time = context.watch<StopwatchProvider>().time;
     final isRunning = context.watch<StopwatchProvider>().isRunning;
+    final workoutID = context.watch<WorkoutProvider>().workouts.last.id;
     return BottomAppBar(
       color: Colors.white,
       child: Row(
@@ -78,7 +83,9 @@ class TimerWidget extends StatelessWidget {
               width: 150,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: isRunning ? Colors.green : Colors.yellow),
+                  color: isRunning
+                      ? const Color.fromARGB(255, 42, 211, 48)
+                      : const Color.fromARGB(255, 255, 230, 0)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -113,7 +120,7 @@ class TimerWidget extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 context.read<StopwatchProvider>().pauseStopwatch();
-                _showEndWorkoutDialog(context, time);
+                _showEndWorkoutDialog(context, time, workoutID);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
@@ -137,7 +144,8 @@ class TimerWidget extends StatelessWidget {
   }
 }
 
-void _showEndWorkoutDialog(BuildContext context, String time) {
+void _showEndWorkoutDialog(
+    BuildContext context, String time, String workoutID) {
   showDialog(
     context:
         context, //Context används för att placerar dialogen rätt i i widgetträdet
@@ -159,7 +167,13 @@ void _showEndWorkoutDialog(BuildContext context, String time) {
               print(
                   "Workout finished. Total time: $time"); //Lägg till kod som hanterar ett avslutat pass
               Navigator.of(context).pop();
-              context.go('/finished_workout'); // Stänger dialogrutan
+              context.read<WorkoutProvider>().updateWorkoutStatus(workoutID);
+              context.read<WorkoutProvider>().setWorkoutTime(time, workoutID);
+              context.read<StopwatchProvider>().resetStopwatch();
+              // workoutProvider
+              //     .updateWorkoutStatus(workoutProvider.workouts.last.id);
+              context.go('/finished_workout',
+                  extra: workoutID); // Stänger dialogrutan
             },
             child: const Text("Yes"),
           ),

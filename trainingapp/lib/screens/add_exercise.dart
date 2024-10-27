@@ -10,6 +10,7 @@ class AddExercise extends ChangeNotifier {
   //const AddExercise({super.key});
 
   List<Exercise> result = [];
+  String selectedWorkoutId = '';
 
   getExercises(String input) async {
     List<Exercise> results = await searchExercisesByName(input);
@@ -54,11 +55,27 @@ class AddExerciseSearchBar extends StatelessWidget {
                   itemCount: addExercise.result.length,
                   itemBuilder: (context, index) {
                     final exercise = addExercise.result[index];
+                    final latestWorkout =
+                        Provider.of<WorkoutProvider>(context, listen: false)
+                            .latestWorkout;
                     return ListTile(
                       onTap: () {
-                        Provider.of<WorkoutProvider>(context, listen: false)
-                            .addWorkout(exercise.name ?? 'Not found');
-                        context.go('/create_workout');
+                        // Kontrollera om latestWorkout inte är null
+                        if (latestWorkout != null) {
+                          Provider.of<WorkoutProvider>(context, listen: false)
+                              .addExerciseToWorkout(
+                            latestWorkout.id,
+                            exercise.name ?? 'Not found',
+                            exercise.bodyPart ?? 'Not found',
+                          );
+                          context.go('/create_workout');
+                        } else {
+                          // Hantera fallet när latestWorkout är null
+                          // T.ex. visa en snackbar eller alert dialog
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Ingen workout tillagd.')),
+                          );
+                        }
                       },
                       title: Text(exercise.name ?? 'No Name'),
                       subtitle: Text(exercise.bodyPart ?? 'No Bodypart'),
