@@ -20,6 +20,9 @@ class homePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String userName = context.watch<WorkoutProvider>().userName;
+    List trainingDays = context.watch<WorkoutProvider>().trainingDays;
+    String totalTrainingDays = trainingDays.length.toString();
+
     final String currentMonth = getCurrentMonth();
 
     return Scaffold(
@@ -33,7 +36,7 @@ class homePage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomMenu(),
       body: Padding(
-        padding: EdgeInsets.all(14.0),
+        padding: const EdgeInsets.all(14.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -45,17 +48,19 @@ class homePage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 "Goodmorning $userName",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             ),
-            SizedBox(
-              height: 20, // Öka denna senare
+            const SizedBox(
+              height: 20,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 currentMonth,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
               ),
             ),
             Padding(
@@ -66,43 +71,33 @@ class homePage extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black, width: 2),
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2), // Skuggans färg
-                      offset: Offset(2, 9),
-                      blurRadius: 4, // Hur suddig skuggan ska vara
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.fitness_center,
+                      size: 45,
+                      color: Colors.black,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(
+                          "Total Workouts: $totalTrainingDays",
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 14),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                child: FloatingActionButton(
-                  onPressed: () {},
-                  backgroundColor: Colors.white,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.fitness_center,
-                        size: 45,
-                        color: Colors.black,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Text(
-                            "Workout",
-                            style: TextStyle(color: Colors.black, fontSize: 14),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(13.0),
-              child: calender(),
+            const Padding(
+              padding: EdgeInsets.all(13.0),
+              child: CalendarWidget(),
             ),
           ],
         ),
@@ -111,50 +106,54 @@ class homePage extends StatelessWidget {
   }
 }
 
-Widget calender() {
-  //Lista med dagar där man tränat
-  List<DateTime> trainingDays = [
-    /* DateTime.utc(2024, 10, 7),
-    DateTime.utc(2024, 10, 16),
-    DateTime.utc(2024, 10, 18)
-    */
-    DateTime.utc(2024, 10, 28)
-  ];
-  DateTime today = DateTime.now();
+class CalendarWidget extends StatelessWidget {
+  const CalendarWidget({super.key});
 
-  return Column(
-    children: [
-      Text(
-        "Activity",
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-      ),
-      Container(
-        height: 300,
-        width: 350,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black, width: 1),
-          borderRadius: BorderRadius.circular(10),
+  @override
+  Widget build(BuildContext context) {
+    List trainingDays = context.watch<WorkoutProvider>().trainingDays;
+
+    //Lista med dagar där man tränat
+    DateTime today = DateTime.now();
+
+    return Column(
+      children: [
+        const Text(
+          "Activity",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
         ),
-        child: TableCalendar(
-          rowHeight: 40,
-          focusedDay: today,
-          firstDay: DateTime.utc(2024, 9, 1),
-          lastDay: today,
-          calendarStyle: CalendarStyle(
-            selectedDecoration: BoxDecoration(
-              color: Colors.green, //Färgen på en dag man tränat
-              shape: BoxShape.circle, //formen på det som markerar en tränad dag
-            ),
+        Container(
+          height: 300,
+          width: 350,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black, width: 1),
+            borderRadius: BorderRadius.circular(10),
           ),
-          selectedDayPredicate: (day) {
-            //Anger vilka dagar som ska markeras som valda (träningsdagar) i kalendern.
-            return trainingDays.any((trainingDay) => isSameDay(
-                day, trainingDay)); //Loopar igenom dagarna i trainingDays
-            //och kontrollerar om den aktuella dagen (day)
-            //är samma som någon av träningsdagarna (trainingDay).
-          },
+          child: TableCalendar(
+            headerStyle: const HeaderStyle(
+                formatButtonVisible:
+                    false), //Döljer knappen "2 weeks" som kommer som standard
+            rowHeight: 40,
+            focusedDay: today,
+            firstDay: DateTime.utc(2024, 9, 1),
+            lastDay: today,
+            calendarStyle: const CalendarStyle(
+              selectedDecoration: BoxDecoration(
+                color: Colors.green, //Färgen på en dag man tränat
+                shape:
+                    BoxShape.circle, //formen på det som markerar en tränad dag
+              ),
+            ),
+            selectedDayPredicate: (day) {
+              //Anger vilka dagar som ska markeras som valda (träningsdagar) i kalendern.
+              return trainingDays.any((trainingDay) => isSameDay(
+                  day, trainingDay)); //Loopar igenom dagarna i trainingDays
+              //och kontrollerar om den aktuella dagen (day)
+              //är samma som någon av träningsdagarna (trainingDay).
+            },
+          ),
         ),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }

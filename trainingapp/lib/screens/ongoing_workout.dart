@@ -151,6 +151,8 @@ void _showEndWorkoutDialog(
         context, //Context används för att placerar dialogen rätt i i widgetträdet
     builder: (BuildContext context) {
       //Lokal context för att bygga popuprutans innehåll
+      DateTime today = DateTime.now();
+
       return AlertDialog(
         title: const Text("Finish workout?"),
         content: Text("Total time: $time"),
@@ -170,6 +172,10 @@ void _showEndWorkoutDialog(
               context.read<WorkoutProvider>().updateWorkoutStatus(workoutID);
               context.read<WorkoutProvider>().setWorkoutTime(time, workoutID);
               context.read<StopwatchProvider>().resetStopwatch();
+              context
+                  .read<WorkoutProvider>()
+                  .addTrainingDay(today); // Lägger till dagens datum
+
               // workoutProvider
               //     .updateWorkoutStatus(workoutProvider.workouts.last.id);
               context.go('/finished_workout',

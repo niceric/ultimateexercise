@@ -59,11 +59,13 @@ class WorkoutProvider extends ChangeNotifier {
   List<Workout> _workouts = [];
   String _userBodyWeight = "87";
   String _userName = "";
+  List<DateTime> _trainingDays = [];
 
   // Getter för alla workouts
   List<Workout> get workouts => _workouts;
   String get userBodyWeight => _userBodyWeight;
   String get userName => _userName;
+  List get trainingDays => _trainingDays;
 
   Workout? get latestWorkout {
     if (_workouts.isNotEmpty) {
@@ -175,6 +177,11 @@ class WorkoutProvider extends ChangeNotifier {
 
   void setUserName(newUsername) {
     _userName = newUsername;
+    notifyListeners();
+  }
+
+  void addTrainingDay(DateTime date) {
+    trainingDays.add(date);
     notifyListeners();
   }
 }
