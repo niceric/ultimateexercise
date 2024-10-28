@@ -46,8 +46,8 @@ class BottomMenu extends StatelessWidget {
         BottomNavigationBarItem(
           label: '',
           icon: Icon((currentScreenIndex == 4)
-              ? Icons.calendar_month
-              : Icons.calendar_month_outlined),
+              ? Icons.settings
+              : Icons.settings_outlined),
         ),
       ],
     );

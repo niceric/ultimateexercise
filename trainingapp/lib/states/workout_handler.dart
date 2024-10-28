@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:trainingapp/models/workout_model.dart';
 
@@ -55,9 +57,15 @@ import 'package:trainingapp/models/workout_model.dart';
 
 class WorkoutProvider extends ChangeNotifier {
   List<Workout> _workouts = [];
+  String _userBodyWeight = "87";
+  String _userName = "";
+  List<DateTime> _trainingDays = [];
 
   // Getter för alla workouts
   List<Workout> get workouts => _workouts;
+  String get userBodyWeight => _userBodyWeight;
+  String get userName => _userName;
+  List get trainingDays => _trainingDays;
 
   Workout? get latestWorkout {
     if (_workouts.isNotEmpty) {
@@ -86,7 +94,7 @@ class WorkoutProvider extends ChangeNotifier {
             workoutName: workoutName,
             date: DateTime.now(), // Datum sätts till nuvarande tid
             time: '00:00:00',
-            weather: ["Couldn't load weather", ""],
+            weather: [],
             exercises: []),
       );
     }
@@ -159,6 +167,21 @@ class WorkoutProvider extends ChangeNotifier {
   void setWorkoutWeather(List<String> workoutWeather, String workoutID) {
     Workout workoutToBeChanged = getWorkoutById(workoutID);
     workoutToBeChanged.weather = workoutWeather;
+    notifyListeners();
+  }
+
+  void setUserWeight(String weight) {
+    _userBodyWeight = weight;
+    notifyListeners();
+  }
+
+  void setUserName(newUsername) {
+    _userName = newUsername;
+    notifyListeners();
+  }
+
+  void addTrainingDay(DateTime date) {
+    trainingDays.add(date);
     notifyListeners();
   }
 }
