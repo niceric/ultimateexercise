@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trainingapp/models/workout_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 // class WorkoutProvider extends ChangeNotifier {
 //   List<Workout> _workouts = [];
@@ -59,11 +61,39 @@ class WorkoutProvider extends ChangeNotifier {
   // Getter för alla workouts
   List<Workout> get workouts => _workouts;
 
+  WorkoutProvider() {
+    setWorkouts();
+  }
+
   Workout? get latestWorkout {
     if (_workouts.isNotEmpty) {
       return _workouts.last; // Hämta den senaste workouten
     }
     return null; // Returnera null om listan är tom
+  }
+
+  void setWorkouts() async {
+    _workouts = await getWorkoutList();
+  }
+
+  Future<void> saveWorkoutList(List<Workout> workouts) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> jsonStringList =
+        workouts.map((workout) => jsonEncode(workout.toJson())).toList();
+    await prefs.setStringList('workout_list', jsonStringList);
+  }
+
+  Future<List<Workout>> getWorkoutList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? jsonStringList = prefs.getStringList('workout_list');
+
+    if (jsonStringList != null) {
+      return jsonStringList
+          .map((jsonString) => Workout.fromJson(jsonDecode(jsonString), this))
+          .toList();
+    }
+    notifyListeners();
+    return [];
   }
 
   String? getLatestExerciseName() {
@@ -105,6 +135,7 @@ class WorkoutProvider extends ChangeNotifier {
     workout.exercises.add(
       Exercise(exerciseName: exerciseName, muscleGroup: muscleGroup),
     );
+
     notifyListeners();
   }
 
@@ -141,6 +172,8 @@ class WorkoutProvider extends ChangeNotifier {
   void updateWorkoutStatus(String workoutID) {
     Workout workoutToBeChanged = getWorkoutById(workoutID);
     workoutToBeChanged.isFinished = true;
+
+    saveWorkoutList(workouts);
     notifyListeners();
   }
 
