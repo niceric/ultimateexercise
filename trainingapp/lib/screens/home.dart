@@ -4,6 +4,8 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:trainingapp/components/bottom_appbar.dart';
 import 'package:trainingapp/states/screen_index_provider.dart';
 import 'package:trainingapp/components/weather_tile.dart';
+import 'package:trainingapp/states/workout_handler.dart';
+import 'package:provider/provider.dart';
 
 //Hämtar månadens månad
 String getCurrentMonth() {
@@ -17,6 +19,7 @@ class homePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String userName = context.watch<WorkoutProvider>().userName;
     final String currentMonth = getCurrentMonth();
 
     return Scaffold(
@@ -41,12 +44,12 @@ class homePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Good morning, User!",
+                "Goodmorning $userName",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             ),
             SizedBox(
-              height: 40, // Öka denna senare
+              height: 20, // Öka denna senare
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -111,8 +114,11 @@ class homePage extends StatelessWidget {
 Widget calender() {
   //Lista med dagar där man tränat
   List<DateTime> trainingDays = [
-    DateTime.utc(2024, 10, 7),
+    /* DateTime.utc(2024, 10, 7),
     DateTime.utc(2024, 10, 16),
+    DateTime.utc(2024, 10, 18)
+    */
+    DateTime.utc(2024, 10, 28)
   ];
   DateTime today = DateTime.now();
 
@@ -123,14 +129,14 @@ Widget calender() {
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
       ),
       Container(
-        height: 250,
+        height: 300,
         width: 350,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: TableCalendar(
-          rowHeight: 30,
+          rowHeight: 40,
           focusedDay: today,
           firstDay: DateTime.utc(2024, 9, 1),
           lastDay: today,
