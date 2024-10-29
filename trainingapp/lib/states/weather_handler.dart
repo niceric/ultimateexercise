@@ -22,6 +22,10 @@ class WeatherProvider extends ChangeNotifier {
       final weatherData = await _weatherService.getWeather();
       _weather = Weather.fromJson(weatherData, cityName);
     } catch (e) {
+      _weather = Weather(
+          cityName: 'Not found',
+          temperatureCelsius: 0,
+          mainCondition: 'Not found');
       print(e);
     } finally {
       _loading = false;

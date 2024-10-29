@@ -7,7 +7,7 @@ class WeatherTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<WeatherProvider>(
       builder: (context, weatherProvider, child) {
-        // Fördröj väderhämtningen tills efter att byggprocessen är klar
+        // Delay fetchWeather until the build is done
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (weatherProvider.weather == null && !weatherProvider.loading) {
             weatherProvider.fetchWeather();

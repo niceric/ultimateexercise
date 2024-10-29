@@ -1,28 +1,6 @@
-// class WorkoutSet {
-//   String exerciseName;
-//   int setNumber;
-//   double weight;
-//   int reps;
 
-//   WorkoutSet({
-//     required this.exerciseName,
-//     required this.setNumber,
-//     this.weight = 0.0,
-//     this.reps = 0,
-//   });
-// }
+import 'package:uuid/uuid.dart';
 
-// class Workout {
-//   String workoutName = '';
-//   List<WorkoutSet> sets;
-
-//   Workout({
-//     required this.workoutName,
-//     required this.sets,
-//   });
-
-//   String get getWorkoutName => workoutName;
-// }
 import 'dart:ffi';
 
 import 'package:flutter/src/widgets/framework.dart';
@@ -30,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:trainingapp/models/exercise_model.dart';
 import 'package:trainingapp/states/workout_handler.dart';
 import 'package:uuid/uuid.dart'; // Används för att skapa unika ID:n
+
 
 class WorkoutSet {
   int setNumber;
@@ -53,34 +32,7 @@ class Exercise {
     required this.muscleGroup,
   }) : sets = [];
 
-  // Map<String, dynamic> toJson() {
-  //   //not used atm
-  //   return {
-  //     'exerciseName': exerciseName,
-  //     'muscleGroup': muscleGroup,
-  //     'sets': sets,
-  //   };
-  // }
 
-  // List<WorkoutSet> get getSets {
-  //   return sets;
-  // }
-
-  // List<int> get getReps {
-  //   List<int> repStrings = [];
-  //   for (var i = 0; i < sets.length; i++) {
-  //     repStrings.add(sets[i].reps);
-  //   }
-  //   return repStrings;
-  // }
-
-  // List<double> get getWeights {
-  //   List<double> weightStrings = [];
-  //   for (var i = 0; i < sets.length; i++) {
-  //     weightStrings.add(sets[i].weight);
-  //   }
-  //   return weightStrings;
-  // }
 }
 
 class Workout {
@@ -99,7 +51,7 @@ class Workout {
     required this.weather,
     required this.exercises,
     this.isFinished = false,
-  }) : id = Uuid().v4(); // Generera ett unikt ID
+  }) : id = Uuid().v4(); // generete unique ID
 
   String? get workoutDate {
     return '${date.year}-${date.month}-${date.day}';

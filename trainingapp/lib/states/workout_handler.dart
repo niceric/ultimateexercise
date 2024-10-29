@@ -5,58 +5,6 @@ import 'package:trainingapp/models/workout_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-// class WorkoutProvider extends ChangeNotifier {
-//   List<Workout> _workouts = [];
-
-//   List<Workout> get workouts {
-//     return _workouts;
-//   }
-
-//   void addWorkout(String workoutName) {
-//     _workouts.add(Workout(
-//         workoutName: workoutName,
-//         sets: [])); // Lägger till en workout utan sets
-//     notifyListeners();
-//   }
-
-//   // void addWorkout(String exerciseName, String workoutName) {
-//   //   _workouts.add(Workout(
-
-//   //       workoutName: workoutName,
-//   //       sets: [WorkoutSet(exerciseName: exerciseName, setNumber: 1)]));
-//   //   notifyListeners();
-//   // }
-//   // Lägg till en exercise till en specifik workout
-//   void addExerciseToWorkout(int workoutIndex, String exerciseName) {
-//     int nextSetNumber = _workouts[workoutIndex].sets.length + 1;
-//     _workouts[workoutIndex].sets.add(
-//           WorkoutSet(exerciseName: exerciseName, setNumber: nextSetNumber),
-//         );
-//     notifyListeners();
-//   }
-
-//   void addSetToWorkout(int workoutIndex) {
-//     int nextSetNumber = _workouts[workoutIndex].sets.length + 1;
-//     _workouts[workoutIndex]
-//         .sets
-//         .add(WorkoutSet(exerciseName: 'xerciseName', setNumber: nextSetNumber));
-//     notifyListeners();
-//   }
-
-//   void updateSet(int workoutIndex, int setIndex, double weight, int reps) {
-//     _workouts[workoutIndex].sets[setIndex].weight = weight;
-//     _workouts[workoutIndex].sets[setIndex].reps = reps;
-//   }
-
-//   // void printWorkouts() {
-//   //   print(_workouts);
-//   // }
-// }
-
-/////////////////
-///
-///
-
 class WorkoutProvider extends ChangeNotifier {
   List<Workout> _workouts = [];
   String _userBodyWeight = "87";
@@ -75,6 +23,9 @@ class WorkoutProvider extends ChangeNotifier {
 
   Workout? get latestWorkout {
     if (_workouts.isNotEmpty) {
+
+      return _workouts.last;
+
       return _workouts.last; // Hämta den senaste workouten
     }
     return null; // Returnera null om listan är tom
@@ -111,27 +62,25 @@ class WorkoutProvider extends ChangeNotifier {
 
       // Hämta namnet på senaste övningen
     }
-
-    return null; // Returnera null om ingen övning finns
+    return null;
   }
 
   // Lägg till en ny workout
-  void addWorkout(String workoutName, String time, String weather) {
+  void addWorkout() {
     print('KOMMER VI HIT?');
     if (_workouts.isEmpty || workouts.last.isFinished) {
       _workouts.add(
         Workout(
-            workoutName: workoutName,
+            workoutName: 'Workout of the day',
             date: DateTime.now(), // Datum sätts till nuvarande tid
             time: '00:00:00',
-            weather: [],
+            weather: ['?', 'Not found'],
             exercises: []),
       );
     }
     // notifyListeners();
   }
 
-  // Hämta en workout genom att använda dess ID
   Workout getWorkoutById(String id) {
     return _workouts.firstWhere((workout) => workout.id == id);
   }
@@ -144,19 +93,9 @@ class WorkoutProvider extends ChangeNotifier {
       Exercise(exerciseName: exerciseName, muscleGroup: muscleGroup),
     );
 
+    addSetToExercise(workoutId, workouts.last.exercises.length - 1, 1, 1);
     notifyListeners();
   }
-
-  // Lägg till ett set till en specifik exercise i en workout
-  // void addSetToExercise(
-  //     String workoutId, int exerciseIndex, int reps, double weight) {
-  //   Workout workout = getWorkoutById(workoutId);
-  //   int nextSetNumber = workout.exercises[exerciseIndex].sets.length + 1;
-  //   workout.exercises[exerciseIndex].sets.add(
-  //     WorkoutSet(setNumber: nextSetNumber, reps: reps, weight: weight),
-  //   );
-  //   notifyListeners();
-  // }
 
   void addSetToExercise(
       String workoutId, int exerciseIndex, int reps, double weight) {
@@ -165,6 +104,10 @@ class WorkoutProvider extends ChangeNotifier {
     workout.exercises[exerciseIndex].sets.add(
       WorkoutSet(setNumber: nextSetNumber, reps: reps, weight: weight),
     );
+    notifyListeners();
+  }
+
+  void updateSetList() {
     notifyListeners();
   }
 
