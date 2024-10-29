@@ -1,21 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';  
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:trainingapp/components/bottom_appbar.dart';
 import '../components/charts.dart';
-import '../components/enums.dart' as app_enums;  // Använd alias för enums
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Statisticspage(),
-    );
-  }
-}
+import '../components/enums.dart' as app_enums;
+import '../models/workout_model.dart';
+import '../states/workout_handler.dart';
 
 class Statisticspage extends StatefulWidget {
   @override
@@ -23,8 +13,8 @@ class Statisticspage extends StatefulWidget {
 }
 
 class _StatisticspageState extends State<Statisticspage> {
-  app_enums.Metric selectedMetric = app_enums.Metric.Reps;  // Standard val för dropdown
-  DateTimeRange? selectedDateRange;  // Datumintervall för grafen
+  app_enums.Metric selectedMetric = app_enums.Metric.Reps; // Standard val för dropdown
+  DateTimeRange? selectedDateRange; // Datumintervall för grafen
 
   @override
   Widget build(BuildContext context) {
@@ -34,18 +24,23 @@ class _StatisticspageState extends State<Statisticspage> {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: StatisticspageContent(
-        selectedMetric: selectedMetric,
-        selectedDateRange: selectedDateRange,
-        onMetricChanged: (newMetric) {
-          setState(() {
-            selectedMetric = newMetric;
-          });
-        },
-        onDateRangeChanged: (newDateRange) {
-          setState(() {
-            selectedDateRange = newDateRange;
-          });
+      body: Consumer<WorkoutProvider>(
+        builder: (context, workoutProvider, child) {
+          return StatisticspageContent(
+            selectedMetric: selectedMetric,
+            selectedDateRange: selectedDateRange,
+            workouts: workoutProvider.workouts,
+            onMetricChanged: (newMetric) {
+              setState(() {
+                selectedMetric = newMetric;
+              });
+            },
+            onDateRangeChanged: (newDateRange) {
+              setState(() {
+                selectedDateRange = newDateRange;
+              });
+            },
+          );
         },
       ),
       bottomNavigationBar: BottomMenu(),
@@ -56,12 +51,14 @@ class _StatisticspageState extends State<Statisticspage> {
 class StatisticspageContent extends StatelessWidget {
   final app_enums.Metric selectedMetric;
   final DateTimeRange? selectedDateRange;
+  final List<Workout> workouts; // Skickar workouts till LineChartWithDropdown
   final ValueChanged<app_enums.Metric> onMetricChanged;
   final ValueChanged<DateTimeRange?> onDateRangeChanged;
 
   StatisticspageContent({
     required this.selectedMetric,
     required this.selectedDateRange,
+    required this.workouts,
     required this.onMetricChanged,
     required this.onDateRangeChanged,
   });
@@ -122,6 +119,7 @@ class StatisticspageContent extends StatelessWidget {
             selectedMetric: selectedMetric,
             startDate: selectedDateRange?.start,
             endDate: selectedDateRange?.end,
+            workouts: workouts, // Skickar workouts till grafen
           ),
         ),
       ],
