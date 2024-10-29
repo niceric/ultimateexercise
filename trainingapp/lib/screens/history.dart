@@ -21,9 +21,7 @@ class Historypage extends StatelessWidget {
             itemBuilder: (context, index) {
               final workout = workoutProvider.workouts[index];
               return HistoryTile(
-                date: workout.workoutDate ??
-                    '', // '${workout.date.month}-${workout.date.day}',
-                // ersätt med namn för passet inte övningarna
+                date: workout.workoutDate ?? '',
                 workoutName: workout.workoutName,
                 duration: workout.time,
                 weather: workout.weather[1],
@@ -38,20 +36,3 @@ class Historypage extends StatelessWidget {
     );
   }
 }
-
-// Consumer<WorkoutProvider>(
-//               builder: (context, workoutProvider, child) {
-//                 return ListView.builder(
-//                   itemCount: workoutProvider.workouts.length,
-//                   itemBuilder: (context, index) {
-//                     return HistoryTile(
-//                       date: 'Ons 9',
-//                       workoutName: 'Rygg/Biceps',
-//                       duration: '1h 15min',
-//                       weatherIcon: 'sun',
-//                       temperature: '20°C',
-//                           );
-//                   },
-//                 );
-//               },
-//             ),

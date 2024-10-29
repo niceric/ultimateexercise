@@ -13,21 +13,12 @@ class CreateWorkout extends StatelessWidget {
   final controller = TextEditingController();
   final now = DateTime.now();
 
-  // .read<WorkoutProvider>()
-  // .addWorkout(controller.text, 'TID', 'VÄDER');
-
   @override
   Widget build(BuildContext context) {
     final weatherProvider = Provider.of<WeatherProvider>(context);
     return Consumer<WorkoutProvider>(
         builder: (context, workoutProvider, child) {
-      // WidgetsBinding.instance.addPostFrameCallback((_) {
-      //   print('HIT DÅ?');
-      //   context.read<WorkoutProvider>().addWorkout('TEST', 'TID', 'VÄDER');
-      // });
-
-      context.read<WorkoutProvider>().addWorkout(
-          'Workout of the day', '${now.year}-${now.month}-${now.day}', 'VÄDER');
+      context.read<WorkoutProvider>().addWorkout();
       //
       return Scaffold(
         appBar: AppBar(
@@ -62,55 +53,6 @@ class CreateWorkout extends StatelessWidget {
                             },
                           ),
                         ]))),
-            // Container(
-            //   height: 90,
-            //   decoration: BoxDecoration(
-            //       color: Colors.lightBlue[50],
-            //       borderRadius: BorderRadius.circular(5),
-            //       border: Border.all(color: Colors.black87, width: 0.2),
-            //       boxShadow: [
-            //         BoxShadow(
-            //             color: Color.fromARGB(255, 0, 0, 0),
-            //             spreadRadius: 0.5,
-            //             blurRadius: 2,
-            //             offset: Offset.fromDirection(0.8, 3)),
-            //       ]),
-            //   padding: EdgeInsets.all(16),
-            //   margin: EdgeInsets.all(20),
-            //   child: TextField(
-            //     controller: controller,
-            //     decoration: InputDecoration(
-            //         border: OutlineInputBorder(),
-            //         hintText: workoutProvider.workouts.last.workoutName ==
-            //                 'Workout of the day'
-            //             ? 'The name of the workout'
-            //             : workoutProvider.workouts.last.workoutName),
-            //     onChanged: (value) => {
-            //       context.read<WorkoutProvider>().setWorkoutName(
-            //           controller.text, workoutProvider.workouts.last.id)
-            //     },
-            //   ),
-            // ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     GestureDetector(
-            //       onTap: () {
-            //         context
-            //             .read<WorkoutProvider>()
-            //             .addWorkout(controller.text, 'TID', 'VÄDER');
-            //         controller.clear();
-            //       },
-            //       child: Row(
-            //         children: [
-            //           Icon(Icons.note_add),
-            //           Text('ADD'),
-            //         ],
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // ListView med workout-tiles
             Expanded(
               child: ListView.builder(
                 itemCount: workoutProvider.workouts.isEmpty
@@ -125,13 +67,6 @@ class CreateWorkout extends StatelessWidget {
                 },
               ),
             ),
-            IconButton(
-                onPressed: () {
-                  workoutProvider
-                      .updateWorkoutStatus(workoutProvider.workouts.last.id);
-                },
-                icon: Icon(Icons.abc_outlined)),
-
             Divider(
               height: 10,
             ),
@@ -146,8 +81,6 @@ class CreateWorkout extends StatelessWidget {
                       child: Text('START WORKOUT'),
                       onPressed: () => {
                         weatherProvider.fetchWeather(),
-                        // ['9', 'snow'],
-                        // DEBBUGING - API DOWN???
                         workoutProvider.setWorkoutWeather([
                           '${weatherProvider.weather!.temperatureCelsius.round()}',
                           weatherProvider.weather!.mainCondition,
@@ -159,14 +92,7 @@ class CreateWorkout extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Icon(Icons.add),
-                  onPressed: () => {
-                    context.go('/add_exercise')
-
-                    // Lägg till en ny övning
-                    // Koden endan lägger till en övning, placeholder namn - populeras i ListView i denna screen
-                    // Provider.of<WorkoutProvider>(context, listen: false)
-                    //     .addWorkout("New Exercise"); // Placeholder namn
-                  },
+                  onPressed: () => {context.go('/add_exercise')},
                 ),
               ],
             )

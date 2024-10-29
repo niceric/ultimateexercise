@@ -44,10 +44,6 @@ class WeatherService {
 
     // extract city name from first placemark
     String? city = placemarks[0].subLocality;
-    String? subLocality = placemarks[0].subLocality;
-    String? adminArea = placemarks[0].administrativeArea;
-
-    print('Location details: $subLocality, $city, $adminArea');
 
     return city ?? 'Could not load your location';
   }

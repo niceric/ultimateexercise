@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-//import 'package:json_annotation/json_annotation.dart';
-
-//part 'exercise.g.dart';
 
 class Exercise {
   final String? id;
@@ -28,14 +25,6 @@ class Exercise {
     return Exercise(json['id'], json['name'], json['bodyPart'],
         json['equipment'], json['target'], json['gifUrl'], json['description']);
   }
-
-/*
-  factory Exercise.fromJson(Map<String, dynamic> json) =>
-      _$ExerciseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ExerciseToJson(this);
-
-  */
 }
 
 Future<List<Exercise>> searchExercisesByName(String name) async {

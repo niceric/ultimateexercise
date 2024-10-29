@@ -70,8 +70,7 @@ class AddExerciseSearchBar extends StatelessWidget {
                           );
                           context.go('/create_workout');
                         } else {
-                          // Hantera fallet när latestWorkout är null
-                          // T.ex. visa en snackbar eller alert dialog
+                          // error handling
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Ingen workout tillagd.')),
                           );
@@ -94,12 +93,3 @@ class AddExerciseSearchBar extends StatelessWidget {
     );
   }
 }
-
-
-// Följande kod behövs för att lägga till en övning, ersätt "New Exercise"-strängen med namnet på den övning man väljer 
-/*
-onPressed: () {
-                  // Lägg till en ny övning
-                  Provider.of<WorkoutProvider>(context, listen: false)
-                      .addWorkout("New Exercise"); 
-*/

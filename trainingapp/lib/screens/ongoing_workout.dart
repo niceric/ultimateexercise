@@ -17,7 +17,6 @@ class OngoingWorkout extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // ListView med workout-tiles
           Expanded(
             child: Consumer<WorkoutProvider>(
               builder: (context, workoutProvider, child) {
@@ -34,27 +33,15 @@ class OngoingWorkout extends StatelessWidget {
               },
             ),
           ),
-          Divider(
+          const Divider(
             height: 10,
           ),
-          Row(
+          const Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 100, right: 100),
-
-                // ),
-                // IconButton(
-                //   icon: Icon(Icons.add),
-                //   onPressed: () => {
-                //     context.go('/add_exercise')
-
-                // Lägg till en ny övning
-                // Koden endan lägger till en övning, placeholder namn - populeras i ListView i denna screen
-                // Provider.of<WorkoutProvider>(context, listen: false)
-                //     .addWorkout("New Exercise"); // Placeholder namn
-                // },
+                padding: EdgeInsets.only(left: 100, right: 100),
               ),
             ],
           ),
@@ -175,9 +162,6 @@ void _showEndWorkoutDialog(
               context
                   .read<WorkoutProvider>()
                   .addTrainingDay(today); // Lägger till dagens datum
-
-              // workoutProvider
-              //     .updateWorkoutStatus(workoutProvider.workouts.last.id);
               context.go('/finished_workout',
                   extra: workoutID); // Stänger dialogrutan
             },

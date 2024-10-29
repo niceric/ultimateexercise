@@ -1,30 +1,4 @@
-// class WorkoutSet {
-//   String exerciseName;
-//   int setNumber;
-//   double weight;
-//   int reps;
-
-//   WorkoutSet({
-//     required this.exerciseName,
-//     required this.setNumber,
-//     this.weight = 0.0,
-//     this.reps = 0,
-//   });
-// }
-
-// class Workout {
-//   String workoutName = '';
-//   List<WorkoutSet> sets;
-
-//   Workout({
-//     required this.workoutName,
-//     required this.sets,
-//   });
-
-//   String get getWorkoutName => workoutName;
-// }
-
-import 'package:uuid/uuid.dart'; // Används för att skapa unika ID:n
+import 'package:uuid/uuid.dart';
 
 class WorkoutSet {
   int setNumber;
@@ -65,7 +39,7 @@ class Workout {
     required this.weather,
     required this.exercises,
     this.isFinished = false,
-  }) : id = Uuid().v4(); // Generera ett unikt ID
+  }) : id = Uuid().v4(); // generete unique ID
 
   String? get workoutDate {
     return '${date.year}-${date.month}-${date.day}';
