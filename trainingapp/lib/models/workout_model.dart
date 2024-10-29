@@ -106,13 +106,21 @@ class Workout {
   }
 
   factory Workout.fromJson(
-      Map<String, dynamic> json, WorkoutProvider provider) {
-    var array = json['weather']; // array is now List<dynamic>
+      //utkommenterad kod är till för att få fram reps/weight
+      //koden är kvar för att visa att det blir för svårt att få fram reps/weight med vår kodstruktur genom
+      //shared preferences, hade hive användts hade det nog varit lättare då det verkar som man kan spara
+      //objekt som dem är, dvs inte behöva bryta ner workouts i bestånds delar för att kunna spara.
+      Map<String, dynamic> json,
+      WorkoutProvider provider) {
+    var array = json['weather'];
     List<String> weatherStrings = List<String>.from(array);
     List<Exercise> exerciseList = [];
 
     for (var i = 0; i < int.parse(json['exercises']); i++) {
+      //lägger till varje exercisename och musclegroup i den rätta excersicesen för att sedan kunna skapa
+      //nya, dvs den gör nya kopior istället för att "spara" excersices.
       exerciseList.add(Exercise(
+          //lägger till exercises i exericse list
           exerciseName: json['exercisesnames'][i].toString(),
           muscleGroup: json['muscleGroup'][i].toString()));
       // for (var y = 0; y < int.parse(json['sets']); y++) {
@@ -122,8 +130,11 @@ class Workout {
     }
     return Workout(
       workoutName: json['workoutName'],
-      date: DateTime(int.parse(json['dateyear']), int.parse(json['datemonth']),
-          int.parse(json['dateday'])),
+      date: DateTime(
+          int.parse(json['dateyear']),
+          int.parse(json['datemonth']),
+          int.parse(json[
+              'dateday'])), //gör om 3 strings till 3 ints för att skapa nua datetimes
       time: json['time'],
       weather: weatherStrings,
       exercises: exerciseList,
@@ -149,7 +160,8 @@ class Workout {
     return {
       'id': id,
       'workoutName': workoutName,
-      'dateyear': date.year.toString(),
+      'dateyear': date.year
+          .toString(), //bryter ut datetime till 3 strings itället för datetime formatet
       'datemonth': date.hour.toString(),
       'dateday': date.day.toString(),
       'time': time,

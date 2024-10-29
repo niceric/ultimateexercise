@@ -15,7 +15,8 @@ class BottomMenu extends StatelessWidget {
       unselectedItemColor: Colors.grey,
       iconSize: 50,
       currentIndex: currentScreenIndex,
-      onTap: (value) => _screenindexprovider.updateScreenIndex(value, context),
+      onTap: (value) =>
+          _screenindexprovider.updateScreenIndex(value, context), //byter skärm
       items: [
         BottomNavigationBarItem(
           label: '',

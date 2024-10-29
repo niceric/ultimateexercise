@@ -29,6 +29,7 @@ class ScreenIndexProvider extends ChangeNotifier {
   }
 
   void RouteScreen(index, BuildContext context) {
+    //navbar index routing
     if (index == 0) {
       context.go('/');
     } else if (index == 1) {
@@ -47,25 +48,25 @@ class ScreenIndexProvider extends ChangeNotifier {
       GoRoute(
           path: '/',
           builder: (BuildContext context, GoRouterState state) {
-            return const homePage(); //byt denna om ni vill ha en annan skräm här
+            return const homePage(); //byt denna om ni vill ha en annan skärm här
           },
           routes: <RouteBase>[
             GoRoute(
               path: 'history',
               builder: (BuildContext context, GoRouterState state) {
-                return Historypage(); //byt denna om ni vill ha en annan skräm här
+                return Historypage(); //byt denna om ni vill ha en annan skärm här
               },
             ),
             GoRoute(
               path: 'create_workout',
               builder: (BuildContext context, GoRouterState state) {
-                return CreateWorkout(); //byt denna om ni vill ha en annan skräm här
+                return CreateWorkout(); //byt denna om ni vill ha en annan skärm här
               },
             ),
             GoRoute(
               path: 'statistics',
               builder: (BuildContext context, GoRouterState state) {
-                return Statisticspage(); //byt denna om ni vill ha en annan skräm här
+                return Statisticspage(); //byt denna om ni vill ha en annan skärm här
               },
             ),
             GoRoute(
@@ -73,25 +74,25 @@ class ScreenIndexProvider extends ChangeNotifier {
               builder: (BuildContext context, GoRouterState state) {
                 return FinishedWorkout(
                   workoutID: '',
-                ); //byt denna om ni vill ha en annan skräm här
+                ); //byt denna om ni vill ha en annan skärm här
               },
             ),
             GoRoute(
               path: 'add_exercise',
               builder: (BuildContext context, GoRouterState state) {
-                return AddExerciseSearchBar(); //byt denna om ni vill ha en annan skräm här
+                return AddExerciseSearchBar(); //byt denna om ni vill ha en annan skärm här
               },
             ),
             GoRoute(
               path: 'ongoing_workout',
               builder: (BuildContext context, GoRouterState state) {
-                return OngoingWorkout(); //byt denna om ni vill ha en annan skräm här
+                return OngoingWorkout(); //byt denna om ni vill ha en annan skärm här
               },
             ),
             GoRoute(
               path: 'settings',
               builder: (BuildContext context, GoRouterState state) {
-                return Settings(); //byt denna om ni vill ha en annan skräm här
+                return Settings(); //byt denna om ni vill ha en annan skärm här
               },
             ),
           ])
