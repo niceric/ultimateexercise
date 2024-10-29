@@ -73,6 +73,10 @@ class WorkoutProvider extends ChangeNotifier {
     setWorkouts();
   }
 
+  WorkoutProvider() {
+    setWorkouts();
+  }
+
   Workout? get latestWorkout {
     if (_workouts.isNotEmpty) {
       return _workouts.last; // Hämta den senaste workouten
