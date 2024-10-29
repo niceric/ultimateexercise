@@ -75,7 +75,7 @@ class CreateWorkout extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 100, right: 100),
+                  padding: const EdgeInsets.only(left: 100, right: 98),
                   child: Center(
                     child: TextButton(
                       child: Text('START WORKOUT'),
