@@ -17,7 +17,7 @@ class WeatherTile extends StatelessWidget {
         return Column(
           children: [
             if (weatherProvider.loading)
-              CircularProgressIndicator()
+              Text('Loading weather data...')
             else if (weatherProvider.weather != null)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

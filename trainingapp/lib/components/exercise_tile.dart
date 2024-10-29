@@ -131,8 +131,9 @@ class ExerciseTile extends StatelessWidget {
                                     'THIS IS THE EXERCISE INDEX: $exerciseIndex'
                                     'THIS IS THE SETAMOUNT: ${exercise.sets.length}');
 
-                                exercise.sets.length != 1
-                                    ? exercise.sets.removeLast()
+                                exercise.sets.length != 1 ||
+                                        exercise.sets.isEmpty
+                                    ? exercise.sets.removeLast() //HERE
                                     : workout.exercises.removeAt(exerciseIndex);
                                 workoutProvider.updateSetList();
                               },
