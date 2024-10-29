@@ -1,103 +1,95 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../components/enums.dart' as app_enums;  // Använd alias för enums
+import '../components/enums.dart' as app_enums;
+import 'package:intl/intl.dart';
+import 'package:trainingapp/models/workout_model.dart';
 
 class LineChartWithDropdown extends StatelessWidget {
-  final app_enums.Metric selectedMetric;  // Data som ska visas Reps, Sets och Weight
-  final DateTime? startDate; 
-  final DateTime? endDate;    
+  final app_enums.Metric selectedMetric;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final List<Workout> workouts;
 
-  LineChartWithDropdown({required this.selectedMetric, this.startDate, this.endDate});
+  LineChartWithDropdown({
+    required this.selectedMetric,
+    this.startDate,
+    this.endDate,
+    required this.workouts,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: LineChart(
-        mainData(),  // Metod för att bygga grafen baserat på dropdown-värden och datumet
+        mainData(),
       ),
     );
   }
-
+  // Skapar en widget för titlar på x-axeln
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 12,
     );
-    Widget text;
-    if (startDate != null && endDate != null) {
+    if (startDate != null) {
       DateTime date = startDate!.add(Duration(days: value.toInt()));
-      text = Text(
-        '${date.day}/${date.month}',
-        style: style,
+      String formattedDate = DateFormat('dd/MM').format(date);
+      return SideTitleWidget(
+        axisSide: meta.axisSide,
+        child: Text(formattedDate, style: style),
       );
     } else {
-      text = Text(
-        value.toInt().toString(),
-        style: style,
-      );
+      return Text(value.toInt().toString(), style: style);
     }
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: text,
-    );
   }
-
+  // Skapar en widget för titlar på y-axeln
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 12,
     );
-    String text;
-    if (selectedMetric == app_enums.Metric.Weight) {
-      text = value.toInt().toString();
-    } else {
-      text = value.toInt().toString();
-    }
-
-    return Text(text, style: style, textAlign: TextAlign.left);
+    return Text(value.toInt().toString(), style: style, textAlign: TextAlign.left);
   }
 
   LineChartData mainData() {
     List<FlSpot> spots = [];
 
-    switch (selectedMetric) {
-      case app_enums.Metric.Reps:
-        spots = [
-          FlSpot(0, 3),
-          FlSpot(1, 4),
-          FlSpot(2, 2),
-          FlSpot(3, 10),
-          FlSpot(4, 3),
-          FlSpot(5, 4),
-        ];
-        break;
-      case app_enums.Metric.Sets:
-        spots = [
-          FlSpot(0, 1),
-          FlSpot(1, 2),
-          FlSpot(2, 2),
-          FlSpot(3, 3),
-          FlSpot(4, 2),
-          FlSpot(5, 2),
-        ];
-        break;
-      case app_enums.Metric.Weight:
-        spots = [
-          FlSpot(0, 60),
-          FlSpot(1, 65),
-          FlSpot(2, 68),
-          FlSpot(3, 70),
-          FlSpot(4, 73),
-          FlSpot(5, 78),
-        ];
-        break;
+    // Skapa spots dynamiskt baserat på selectedMetric och workouts
+    for (var workout in workouts) {
+      if (workout.date != null && startDate != null && endDate != null) {
+        int daysSinceStart = workout.date!.difference(startDate!).inDays;
+
+        double yValue = 0;
+        switch (selectedMetric) {
+          case app_enums.Metric.Reps:
+            yValue = workout.exercises
+                .fold(0, (sum, exercise) => sum + exercise.sets.fold(0, (sum, set) => sum + set.reps))
+                .toDouble();
+            break;
+          case app_enums.Metric.Sets:
+            yValue = workout.exercises
+                .fold(0, (sum, exercise) => sum + exercise.sets.length)
+                .toDouble();
+            break;
+          case app_enums.Metric.Weight:
+            yValue = workout.exercises
+                .fold(0.0, (sum, exercise) => sum + exercise.sets.fold(0.0, (sum, set) => sum + set.weight))
+                .toDouble();
+            break;
+        }
+
+        // Lägg till spot om yValue är större än 0
+        if (yValue > 0) {
+          spots.add(FlSpot(daysSinceStart.toDouble(), yValue));
+        }
+      }
     }
 
-    // Hitta det högsta värdet i spots för att dynamiskt justera maxY
-    double maxYValue = spots.map((spot) => spot.y).reduce((a, b) => a > b ? a : b);
-    double maxY = (maxYValue * 1.2).ceilToDouble(); // Lägg till 20% marginal
+    // Bestäm maxY dynamiskt för att få en bra marginal
+    double maxY = spots.isNotEmpty
+        ? (spots.map((spot) => spot.y).reduce((a, b) => a > b ? a : b) * 1.2).ceilToDouble()
+        : 10;
 
     return LineChartData(
       gridData: FlGridData(
@@ -120,12 +112,6 @@ class LineChartWithDropdown extends StatelessWidget {
       ),
       titlesData: FlTitlesData(
         show: true,
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
@@ -152,7 +138,7 @@ class LineChartWithDropdown extends StatelessWidget {
           ? endDate!.difference(startDate!).inDays.toDouble()
           : 6,
       minY: 0,
-      maxY: maxY, // Dynamisk justering av maxY
+      maxY: maxY,
       lineBarsData: [
         LineChartBarData(
           spots: spots,
