@@ -1,9 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:trainingapp/models/workout_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class WorkoutProvider extends ChangeNotifier {
   List<Workout> _workouts = [];
@@ -33,26 +30,18 @@ class WorkoutProvider extends ChangeNotifier {
 
   void setWorkouts() async {
     _workouts = await getWorkoutList();
+    notifyListeners();
   }
 
   Future<void> saveWorkoutList(List<Workout> workouts) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> jsonStringList =
-        workouts.map((workout) => jsonEncode(workout.toJson())).toList();
-    await prefs.setStringList('workout_list', jsonStringList);
+    final box = await Hive.openBox<Workout>('workouts');
+    await box.clear(); // Clear existing workouts
+    await box.addAll(workouts); // Add all workouts
   }
 
   Future<List<Workout>> getWorkoutList() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String>? jsonStringList = prefs.getStringList('workout_list');
-
-    if (jsonStringList != null) {
-      return jsonStringList
-          .map((jsonString) => Workout.fromJson(jsonDecode(jsonString), this))
-          .toList();
-    }
-    notifyListeners();
-    return [];
+    final box = await Hive.openBox<Workout>('workouts');
+    return box.values.toList();
   }
 
   String? getLatestExerciseName() {
