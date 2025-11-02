@@ -12,10 +12,10 @@ import 'package:go_router/go_router.dart';
 import 'package:trainingapp/services/weather_service.dart';
 import 'package:trainingapp/states/weather_handler.dart';
 import 'package:trainingapp/screens/add_exercise.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:trainingapp/states/stopwatch-handler.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:trainingapp/models/workout_model.dart';
+import 'package:trainingapp/models/local_exercise.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,8 +27,8 @@ void main() async {
   Hive.registerAdapter(WorkoutAdapter());
   Hive.registerAdapter(ExerciseAdapter());
   Hive.registerAdapter(WorkoutSetAdapter());
+  Hive.registerAdapter(LocalExerciseAdapter());
 
-  await dotenv.load(fileName: ".env");
   runApp(
     MultiProvider(
       providers: [
