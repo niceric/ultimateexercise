@@ -16,6 +16,7 @@ import 'package:trainingapp/states/stopwatch-handler.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:trainingapp/models/workout_model.dart';
 import 'package:trainingapp/models/local_exercise.dart';
+import 'package:trainingapp/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,7 +55,9 @@ class trainingApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        routerConfig: ScreenIndexProvider().fetchRouter);
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.darkTheme,
+      routerConfig: ScreenIndexProvider().fetchRouter,
+    );
   }
 }
