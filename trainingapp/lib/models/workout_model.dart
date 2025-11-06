@@ -50,27 +50,53 @@ class Workout {
   DateTime date;
 
   @HiveField(3)
-  String time;
+  String duration; // Duration in seconds
 
   @HiveField(4)
-  List<String> weather;
-
-  @HiveField(5)
   List<Exercise> exercises;
 
-  @HiveField(6)
+  @HiveField(5)
   bool isFinished;
 
   Workout({
     required this.workoutName,
     required this.date,
-    required this.time,
-    required this.weather,
+    this.duration = "0",
     required this.exercises,
     this.isFinished = false,
   }) : id = Uuid().v4(); // generate unique ID
 
   String? get workoutDate {
     return '${date.year}-${date.month}-${date.day}';
+  }
+
+  // Format duration for display
+  String get formattedDuration {
+    final seconds = int.tryParse(duration) ?? 0;
+    final hours = seconds ~/ 3600;
+    final minutes = (seconds % 3600) ~/ 60;
+    final secs = seconds % 60;
+
+    if (hours > 0) {
+      return '${hours}h ${minutes}m';
+    } else if (minutes > 0) {
+      return '${minutes}m ${secs}s';
+    } else {
+      return '${secs}s';
+    }
+  }
+
+  // Get total sets
+  int get totalSets {
+    return exercises.fold(0, (sum, ex) => sum + ex.sets.length);
+  }
+
+  // Get total volume (sets × reps × weight)
+  double get totalVolume {
+    return exercises.fold(0.0, (sum, ex) {
+      return sum + ex.sets.fold(0.0, (exSum, set) {
+        return exSum + (set.reps * set.weight);
+      });
+    });
   }
 }
