@@ -4,9 +4,13 @@ import 'package:trainingapp/theme/app_theme.dart';
 import 'package:trainingapp/components/animated_widgets.dart';
 import 'package:trainingapp/states/workout_handler.dart';
 import 'package:trainingapp/models/workout_model.dart';
+import 'package:trainingapp/screens/modern_exercise_selection.dart';
+import 'package:trainingapp/screens/active_workout_screen.dart';
 
 class WorkoutSetupScreen extends StatefulWidget {
-  const WorkoutSetupScreen({Key? key}) : super(key: key);
+  final Workout workout;
+
+  const WorkoutSetupScreen({Key? key, required this.workout}) : super(key: key);
 
   @override
   State<WorkoutSetupScreen> createState() => _WorkoutSetupScreenState();
@@ -28,13 +32,7 @@ class _WorkoutSetupScreenState extends State<WorkoutSetupScreen> {
         child: SafeArea(
           child: Consumer<WorkoutProvider>(
             builder: (context, workoutProvider, child) {
-              // Get or create current workout
-              if (workoutProvider.workouts.isEmpty ||
-                  workoutProvider.workouts.last.isFinished) {
-                workoutProvider.addWorkout();
-              }
-
-              final currentWorkout = workoutProvider.workouts.last;
+              final currentWorkout = widget.workout;
 
               if (_nameController.text.isEmpty &&
                   currentWorkout.workoutName != 'Workout of the day') {
@@ -340,7 +338,9 @@ class _WorkoutSetupScreenState extends State<WorkoutSetupScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ExerciseSelectionScreen(),
+                                  builder: (context) => ModernExerciseSelection(
+                                    workout: currentWorkout,
+                                  ),
                                 ),
                               );
                             },
@@ -388,7 +388,9 @@ class _WorkoutSetupScreenState extends State<WorkoutSetupScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ActiveWorkoutScreen(),
+                                    builder: (context) => ActiveWorkoutScreen(
+                                      workout: currentWorkout,
+                                    ),
                                   ),
                                 );
                               },

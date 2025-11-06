@@ -5,9 +5,13 @@ import 'package:trainingapp/theme/app_theme.dart';
 import 'package:trainingapp/components/animated_widgets.dart';
 import 'package:trainingapp/states/workout_handler.dart';
 import 'package:trainingapp/models/workout_model.dart';
+import 'package:trainingapp/screens/modern_exercise_selection.dart';
+import 'package:trainingapp/screens/workout_complete_screen.dart';
 
 class ActiveWorkoutScreen extends StatefulWidget {
-  const ActiveWorkoutScreen({Key? key}) : super(key: key);
+  final Workout workout;
+
+  const ActiveWorkoutScreen({Key? key, required this.workout}) : super(key: key);
 
   @override
   State<ActiveWorkoutScreen> createState() => _ActiveWorkoutScreenState();
@@ -55,7 +59,7 @@ class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
         child: SafeArea(
           child: Consumer<WorkoutProvider>(
             builder: (context, workoutProvider, child) {
-              final currentWorkout = workoutProvider.workouts.last;
+              final currentWorkout = widget.workout;
 
               return Column(
                 children: [
@@ -180,7 +184,9 @@ class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ExerciseSelectionScreen(),
+                                  builder: (context) => ModernExerciseSelection(
+                                    workout: widget.workout,
+                                  ),
                                 ),
                               );
                             },
@@ -704,30 +710,6 @@ class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
       MaterialPageRoute(
         builder: (context) => WorkoutCompleteScreen(workout: workout),
       ),
-    );
-  }
-}
-
-// Placeholder screens
-class ExerciseSelectionScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Select Exercise')),
-      body: Center(child: Text('Exercise Selection - Coming next!', style: TextStyle(color: Colors.white))),
-    );
-  }
-}
-
-class WorkoutCompleteScreen extends StatelessWidget {
-  final Workout workout;
-  const WorkoutCompleteScreen({Key? key, required this.workout}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Workout Complete!')),
-      body: Center(child: Text('Completion Screen - Coming next!', style: TextStyle(color: Colors.white))),
     );
   }
 }
