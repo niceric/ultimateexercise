@@ -20,12 +20,9 @@ class WorkoutProvider extends ChangeNotifier {
 
   Workout? get latestWorkout {
     if (_workouts.isNotEmpty) {
-
       return _workouts.last;
-
-      return _workouts.last; // Hämta den senaste workouten
     }
-    return null; // Returnera null om listan är tom
+    return null;
   }
 
   void setWorkouts() async {
@@ -56,18 +53,17 @@ class WorkoutProvider extends ChangeNotifier {
 
   // Lägg till en ny workout
   void addWorkout() {
-    print('KOMMER VI HIT?');
     if (_workouts.isEmpty || workouts.last.isFinished) {
       _workouts.add(
         Workout(
-            workoutName: 'Workout of the day',
-            date: DateTime.now(), // Datum sätts till nuvarande tid
-            time: '00:00:00',
-            weather: ['?', 'Not found'],
-            exercises: []),
+          workoutName: 'Workout of the day',
+          date: DateTime.now(),
+          duration: "0",
+          exercises: [],
+        ),
       );
     }
-    // notifyListeners();
+    notifyListeners();
   }
 
   Workout getWorkoutById(String id) {
@@ -123,15 +119,9 @@ class WorkoutProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setWorkoutTime(String workoutTime, String workoutID) {
+  void setWorkoutDuration(String duration, String workoutID) {
     Workout workoutToBeChanged = getWorkoutById(workoutID);
-    workoutToBeChanged.time = workoutTime;
-    notifyListeners();
-  }
-
-  void setWorkoutWeather(List<String> workoutWeather, String workoutID) {
-    Workout workoutToBeChanged = getWorkoutById(workoutID);
-    workoutToBeChanged.weather = workoutWeather;
+    workoutToBeChanged.duration = duration;
     notifyListeners();
   }
 
